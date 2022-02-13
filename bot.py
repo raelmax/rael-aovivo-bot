@@ -16,12 +16,19 @@ logging.basicConfig(
 )
 
 logger = logging.getLogger(__name__)
+audio_numbers = []
 token = os.environ.get("RAELAOVIVOBOT_TELEGRAM_TOKEN")
 assert token is not None, "RAELAOVIVOBOT_TELEGRAM_TOKEN envvar required, idiot."
 
 
 def _get_random_audio():
-    random_number = random.randint(1, 16)
+    global audio_numbers
+
+    if len(audio_numbers) == 0:
+        audio_numbers = list(range(1, 17))
+
+    random.shuffle(audio_numbers)
+    random_number = audio_numbers.pop()
     return open(f"./audios/{random_number}.ogg", "rb")
 
 
